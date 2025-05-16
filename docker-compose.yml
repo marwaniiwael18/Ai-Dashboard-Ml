@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Service Backend (Flask API)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - PORT=5000
+    restart: always
+
+  # Service Frontend (React)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=${API_URL:-http://localhost:5000}
+    restart: always
+
+# Configuration pour Render.com (web service)
+# Ce service sera utilisé par Render pour démarrer les deux conteneurs
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "${PORT:-5000}:5000"
+    environment:
+      - FLASK_ENV=production
+      - PORT=5000
+    restart: always

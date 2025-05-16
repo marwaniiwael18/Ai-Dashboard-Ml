@@ -1,0 +1,37 @@
+FROM node:16-alpine as build
+
+WORKDIR /app
+
+# Définir l'URL de l'API avec une valeur par défaut
+ARG REACT_APP_API_URL=http://localhost:5000
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
+# Afficher les variables d'environnement pour le debugging
+RUN echo "Building with API_URL: $REACT_APP_API_URL"
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+# Passage de la variable d'environnement lors du build
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+RUN echo "Building with REACT_APP_API_URL: $REACT_APP_API_URL"
+RUN npm run build
+
+# Production environment
+FROM nginx:stable-alpine
+
+# Copier le build et la configuration
+COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf.template 
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+
+# Installer bash pour le script d'entrée
+RUN apk add --no-cache bash gettext && \
+    chmod +x /docker-entrypoint.sh
+
+EXPOSE 80
+
+# Utiliser le script d'entrée pour remplacer les variables d'environnement
+CMD ["/docker-entrypoint.sh"]

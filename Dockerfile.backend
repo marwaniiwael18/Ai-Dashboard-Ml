@@ -1,0 +1,41 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Installer les dépendances de base
+RUN pip install --no-cache-dir --upgrade pip
+
+# Copier uniquement le fichier requirements pour optimiser le cache Docker
+COPY requirements.txt .
+
+# Installer les dépendances avec des versions exactes pour éviter les incompatibilités
+RUN pip install --no-cache-dir numpy==1.24.4 && \
+    pip install --no-cache-dir joblib==1.3.2 && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Copier tous les fichiers de l'application
+COPY . .
+
+# Afficher les modèles présents dans le dossier et créer des modèles de démonstration si nécessaire
+RUN echo "Listing model files:" && \
+    ls -la *.pkl || true && \
+    echo "Creating demo models for deployment..." && \
+    python create_demo_models.py
+
+# On utilise une variable d'environnement PORT qui sera fournie par Render.com
+ENV PORT=5000
+
+# Exposer le port défini par la variable d'environnement
+EXPOSE $PORT
+
+# Créer un script de démarrage pour gérer les variables d'environnement
+RUN echo '#!/bin/bash\n\
+PORT=${PORT:-5000}\n\
+echo "Starting server on port $PORT"\n\
+echo "Contents of directory:"\n\
+ls -la *.pkl\n\
+gunicorn --bind 0.0.0.0:$PORT improved_app:app\n'\
+> /app/start.sh && chmod +x /app/start.sh
+
+# Démarrer l'application
+CMD ["/app/start.sh"]

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking API</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            background-color: #3f51b5;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        h1, h2 {
+            margin-top: 0;
+        }
+        code {
+            background-color: #f7f7f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        pre {
+            background-color: #f7f7f7;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .endpoint {
+            margin-bottom: 2rem;
+            border-left: 4px solid #3f51b5;
+            padding-left: 1rem;
+        }
+        .method {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .get {
+            background-color: #61affe;
+            color: white;
+        }
+        .post {
+            background-color: #49cc90;
+            color: white;
+        }
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Smart Parking API</h1>
+        <p>API pour la prédiction de durée et d'occupation de stationnement</p>
+    </header>
+    
+    <div class="container">
+        <div class="content">
+            <h2>Documentation de l'API</h2>
+            <p>Bienvenue sur la documentation de l'API Smart Parking. Cette API permet de prédire la durée de stationnement et l'occupation des places de parking.</p>
+            
+            <div class="endpoint">
+                <h3><span class="method get">GET</span> /health</h3>
+                <p>Vérifier l'état de l'API et si les modèles sont correctement chargés.</p>
+                <h4>Réponse</h4>
+                <pre>{
+    "status": "ok",
+    "message": "API is running and models are loaded"
+}</pre>
+            </div>
+            
+            <div class="endpoint">
+                <h3><span class="method get">GET</span> /features</h3>
+                <p>Obtenir la liste des caractéristiques nécessaires pour les prédictions.</p>
+                <h4>Réponse</h4>
+                <pre>{
+    "regression_features": ["feature1", "feature2", "feature3", "feature4"],
+    "classification_features": ["feature1", "feature2", "feature3"]
+}</pre>
+            </div>
+            
+            <div class="endpoint">
+                <h3><span class="method post">POST</span> /predict/duration</h3>
+                <p>Prédire la durée de stationnement.</p>
+                <h4>Corps de la requête</h4>
+                <pre>{
+    "feature1": value1,
+    "feature2": value2,
+    "feature3": value3,
+    "feature4": value4
+}</pre>
+                <h4>Réponse</h4>
+                <pre>{
+    "prediction": 2.5,
+    "unit": "hours"
+}</pre>
+            </div>
+            
+            <div class="endpoint">
+                <h3><span class="method post">POST</span> /predict/occupancy</h3>
+                <p>Prédire l'occupation d'une place de parking.</p>
+                <h4>Corps de la requête</h4>
+                <pre>{
+    "feature1": value1,
+    "feature2": value2,
+    "feature3": value3
+}</pre>
+                <h4>Réponse</h4>
+                <pre>{
+    "prediction": 1,
+    "probability": {
+        "not_occupied": 0.15,
+        "occupied": 0.85
+    },
+    "label": "Occupied"
+}</pre>
+            </div>
+            
+            <h3>Utilisation avec le frontend React</h3>
+            <p>Cette API est conçue pour être utilisée avec un frontend React qui offre une interface utilisateur conviviale.</p>
+            <p>Pour lancer le frontend, accédez au dossier <code>/frontend</code> et exécutez les commandes suivantes :</p>
+            <pre>npm install
+npm start</pre>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2025 Smart Parking Prediction - Développé par Aymen Jallouli</p>
+        </div>
+    </div>
+</body>
+</html>

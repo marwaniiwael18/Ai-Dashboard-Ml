@@ -1,0 +1,32 @@
+services:
+  # Configuration du service backend
+  - type: web
+    name: smart-parking-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile.backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: FLASK_ENV
+        value: production
+
+# Configuration du service frontend
+  - type: web
+    name: smart-parking-frontend
+    runtime: docker
+    dockerfilePath: Dockerfile.frontend
+    rootDir: ./frontend
+    plan: free
+    envVars:
+      - key: API_URL
+        fromService:
+          name: smart-parking-api
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: REACT_APP_API_URL
+        fromService:
+          name: smart-parking-api
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
