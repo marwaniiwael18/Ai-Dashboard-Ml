@@ -133,6 +133,7 @@ POST /predict/occupancy
 ## Auteur
 
 Aymen Jallouli
+Wael Marwani
 
 ## Licence
 

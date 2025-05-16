@@ -273,7 +273,7 @@ function Footer() {
           </Typography>
           {!isMobile && (
             <Typography variant="body2" color="grey.600">
-              Conçu et développé par Aymen Jallouli
+              Conçu et développé par Aymen Jallouli et Marwani Wael
             </Typography>
           )}
         </Box>
