@@ -1,4 +1,8 @@
 # Smart Parking Prediction
+<img width="1440" alt="Screenshot 2025-05-16 at 11 58 11" src="https://github.com/user-attachments/assets/b3b1259a-ebb7-47d0-869f-031d915121a1" />
+<img width="1440" alt="Screenshot 2025-05-16 at 11 58 30" src="https://github.com/user-attachments/assets/40d428c9-170c-4ed1-aaf8-af4e0c337600" />
+<img width="1440" alt="Screenshot 2025-05-16 at 11 58 40" src="https://github.com/user-attachments/assets/d75d28a5-f8a7-460f-bf84-90176143aa8c" />
+
 
 Système de prédiction intelligent pour la durée de stationnement et l'occupation des places de parking.
 
